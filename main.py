@@ -6,7 +6,6 @@
 # env Variables
 from env import AUTH_TOKEN
 import requests
-import sys
 import json
 from datetime import datetime as dt
 
@@ -24,14 +23,10 @@ def appendIdArray(array: list, newId) -> list:
 
 # First Step
 # - Fetch API data
-# activities_response = requests.get("https://api.slangapp.com/challenges/v1/activities",
-#                                    headers={"Authorization": AUTH_TOKEN})
+activities_response = requests.get("https://api.slangapp.com/challenges/v1/activities",
+                                   headers={"Authorization": AUTH_TOKEN})
 
-# Save to file to not call API every time
-# sys.stdout = open('response.json', 'w')
-# print(json.dumps(activities_response.json()))
-
-activities_response = json.load(open('response.json'))
+print("GET Response: ", activities_response)
 
 
 # Second Step
@@ -76,15 +71,14 @@ def build_user_sessions(activities_response) -> any:        # O(N)
     
     
 
-user_sessions = {"user_sessions": build_user_sessions(activities_response)}
-
-sys.stdout = open('solution.json', 'w')
-print(json.dumps(user_sessions))
+user_sessions = {"user_sessions": build_user_sessions(activities_response.json())}
 
 
 # Third Step
 # - Post result to endpoint
 
-# requests.post("https://api.slangapp.com/challenges/v1/activities/sessions",
-#             headers={"Authorization": AUTH_TOKEN},
-#             json=user_sessions)
+solution_response = requests.post("https://api.slangapp.com/challenges/v1/activities/sessions",
+            headers={"Authorization": AUTH_TOKEN},
+            json=user_sessions)
+
+print("POST Response: ", solution_response)
