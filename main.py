@@ -7,6 +7,7 @@
 from env import AUTH_TOKEN
 import requests
 import sys
+import json
 
 # First Step
 # - Fetch API data
@@ -14,8 +15,8 @@ activities_response = requests.get("https://api.slangapp.com/challenges/v1/activ
                                        headers={"Authorization": AUTH_TOKEN})
 
 # Save to file to not call API every time
-sys.stdout = open('response.txt', 'w')
-print(activities_response.json())
+sys.stdout = open('response.json', 'w')
+print(json.dumps(activities_response.json()))
 
 
 # Second Step
